@@ -17,7 +17,7 @@ void task1() {
   print('Task 1 complete');
 }
 
-Future task2() async {
+Future<String> task2() async {
   Duration threeSeconds = Duration(seconds: 3);
   //sleep(threeSeconds); //synchronous
   String? result;
