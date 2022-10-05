@@ -3,8 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:cilma_mussa/services/location.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
+import 'package:cilma_mussa/services/networking.dart';
 
 const apiKey = 'ca22c53dc6c5f364e8e792c3f4281327';
 
@@ -22,36 +21,22 @@ class LoadingScreenState extends State<LoadingScreen> {
   @override
   void initState() {
     super.initState();
-    getLocation();
+    getLocationData();
   }
 
-  void getLocation() async {
+  void getLocationData() async {
     Location location = Location();
     await location.getCurrentLocation();
     longitude = location.longitude;
     latitude = location.latitude;
-    getData();
-  }
 
-  late final String url =
-      'https://api.openweathermap.org/data/2.5/weather?lat=$latitude&lon=$longitude&appid=$apiKey';
+    NetworkHelper networkHelper = NetworkHelper(
+        'https://api.openweathermap.org/data/2.5/weather?lat=$latitude&lon=$longitude&appid=$apiKey');
+    var wethetData = await networkHelper.getData();
 
-  void getData() async {
-    http.Response response = await http.get(Uri.parse(url));
-
-    if (response.statusCode == 200) {
-      String data = response.body;
-      var decodrdData = jsonDecode(data);
-
-      var cond = decodrdData['weather'][0]['id'];
-      var temp = decodrdData['main']['temp'];
-      var cName = decodrdData['name'];
-      print(cName);
-      print(cond);
-      print(temp);
-    } else {
-      print(response.statusCode);
-    }
+    // var cond = decodrdData['weather'][0]['id'];
+    // var temp = decodrdData['main']['temp'];
+    // var cName = decodrdData['name'];
   }
 
   @override
