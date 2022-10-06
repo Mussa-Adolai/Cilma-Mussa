@@ -1,15 +1,35 @@
-// ignore_for_file: use_key_in_widget_constructors, prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: use_key_in_widget_constructors, prefer_const_constructors, prefer_const_literals_to_create_immutables, prefer_const_constructors_in_immutables
 
 import 'package:flutter/material.dart';
 
 import '../utilities/constants.dart';
 
 class LocationScreen extends StatefulWidget {
+  LocationScreen({this.locationWeather});
+  final locationWeather;
   @override
-  _LocationScreenState createState() => _LocationScreenState();
+  State<LocationScreen> createState() => _LocationScreenState();
 }
 
 class _LocationScreenState extends State<LocationScreen> {
+  late int tempratur;
+  late int condition;
+  late String cName;
+
+  @override
+  void initState() {
+    super.initState();
+
+    updateUI(widget.locationWeather);
+  }
+
+  void updateUI(dynamic wData) {
+    double temp = wData['main']['temp'];
+    tempratur = temp.toInt();
+    condition = wData['weather'][0]['id'];
+    cName = wData['name'];
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,11 +72,11 @@ class _LocationScreenState extends State<LocationScreen> {
                 child: Row(
                   children: <Widget>[
                     Text(
-                      '32°',
+                      '$tempratur°',
                       style: kTempTextStyle,
                     ),
                     Text(
-                      '☀️',
+                      '☀',
                       style: kConditionTextStyle,
                     ),
                   ],
