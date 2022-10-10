@@ -1,18 +1,18 @@
 class WeatherModel {
-  String getWeatherIcon(int condition) {
-    if (condition < 300) {
+  String getWeatherIcon(int aCondition) {
+    if (aCondition < 300) {
       return '🌩';
-    } else if (condition < 400) {
+    } else if (aCondition < 400) {
       return '🌧';
-    } else if (condition < 600) {
+    } else if (aCondition < 600) {
       return '☔️';
-    } else if (condition < 700) {
+    } else if (aCondition < 700) {
       return '☃️';
-    } else if (condition < 800) {
+    } else if (aCondition < 800) {
       return '🌫';
-    } else if (condition == 800) {
+    } else if (aCondition == 800) {
       return '☀️';
-    } else if (condition <= 804) {
+    } else if (aCondition <= 804) {
       return '☁️';
     } else {
       return '🤷‍';

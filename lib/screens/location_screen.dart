@@ -1,7 +1,7 @@
 // ignore_for_file: use_key_in_widget_constructors, prefer_const_constructors, prefer_const_literals_to_create_immutables, prefer_const_constructors_in_immutables
 
 import 'package:flutter/material.dart';
-
+import 'package:cilma_mussa/services/weather.dart';
 import '../utilities/constants.dart';
 
 class LocationScreen extends StatefulWidget {
@@ -12,8 +12,10 @@ class LocationScreen extends StatefulWidget {
 }
 
 class _LocationScreenState extends State<LocationScreen> {
+  WeatherModel weather = WeatherModel();
   late int tempratur;
-  late int condition;
+  late String weatherMsg;
+  late String weatherIcon;
   late String cName;
 
   @override
@@ -26,7 +28,9 @@ class _LocationScreenState extends State<LocationScreen> {
   void updateUI(dynamic wData) {
     double temp = wData['main']['temp'];
     tempratur = temp.toInt();
-    condition = wData['weather'][0]['id'];
+    weatherMsg = weather.getMessage(tempratur);
+    var condition = wData['weather'][0]['id'];
+    weatherIcon = weather.getWeatherIcon(condition);
     cName = wData['name'];
   }
 
@@ -76,7 +80,7 @@ class _LocationScreenState extends State<LocationScreen> {
                       style: kTempTextStyle,
                     ),
                     Text(
-                      '☀',
+                      weatherIcon,
                       style: kConditionTextStyle,
                     ),
                   ],
@@ -85,7 +89,8 @@ class _LocationScreenState extends State<LocationScreen> {
               Padding(
                 padding: EdgeInsets.only(right: 15.0),
                 child: Text(
-                  "It's 🍦 time in San Francisco!",
+                  '$weatherMsg in '
+                  '$cName',
                   textAlign: TextAlign.right,
                   style: kMessageTextStyle,
                 ),
