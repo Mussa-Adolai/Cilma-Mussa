@@ -1,5 +1,4 @@
-// ignore_for_file: use_key_in_widget_constructors, prefer_const_constructors, prefer_const_literals_to_create_immutables, prefer_const_constructors_in_immutables
-
+// ignore_for_file: use_key_in_widget_constructors, prefer_const_constructors, prefer_const_literals_to_create_immutables, prefer_const_constructors_in_immutables, prefer_typing_uninitialized_variables
 import 'package:flutter/material.dart';
 import 'package:cilma_mussa/services/weather.dart';
 import '../utilities/constants.dart';
@@ -26,12 +25,21 @@ class _LocationScreenState extends State<LocationScreen> {
   }
 
   void updateUI(dynamic wData) {
-    double temp = wData['main']['temp'];
-    tempratur = temp.toInt();
-    weatherMsg = weather.getMessage(tempratur);
-    var condition = wData['weather'][0]['id'];
-    weatherIcon = weather.getWeatherIcon(condition);
-    cName = wData['name'];
+    setState(() {
+      if (wData == null) {
+        tempratur = 0;
+        weatherIcon = 'Error';
+        weatherMsg = 'Unable to get weather data';
+        cName = '';
+        return;
+      }
+      double temp = wData['main']['temp'];
+      tempratur = temp.toInt();
+      weatherMsg = weather.getMessage(tempratur);
+      var condition = wData['weather'][0]['id'];
+      weatherIcon = weather.getWeatherIcon(condition);
+      cName = wData['name'];
+    });
   }
 
   @override
@@ -56,7 +64,10 @@ class _LocationScreenState extends State<LocationScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      var weathetData = await weather.getLocationWeather();
+                      updateUI(weathetData);
+                    },
                     child: Icon(
                       Icons.near_me,
                       size: 50.0,
