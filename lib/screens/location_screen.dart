@@ -85,11 +85,19 @@ class _LocationScreenState extends State<LocationScreen> {
                         ),
                       );
                       if (typedName != null) {
-                        var weatherData =
-                            await weather.getCityWheather(typedName);
-                        updateUI(weatherData);
+                        try {
+                          var weatherData2 =
+                              await weather.getCityWheather(typedName);
+                          updateUI(weatherData2);
+                        } catch (e) {
+                          print(e);
+                          print('null data offi');
+                        }
+                      } else {
+                        if (typedName == null) {
+                          print('null data!!');
+                        }
                       }
-                      // print(typedName);
                     },
                     child: Icon(
                       Icons.location_city,
