@@ -1,6 +1,5 @@
 import 'package:cilma_mussa/services/location.dart';
 import 'package:cilma_mussa/services/networking.dart';
-import 'package:geolocator/geolocator.dart';
 
 const apiKey = 'ca22c53dc6c5f364e8e792c3f4281327';
 const openWeatherMapURL = 'https://api.openweathermap.org/data/2.5/weather';
@@ -15,7 +14,6 @@ class WeatherModel {
   }
 
   Future<dynamic> getLocationWeather() async {
-    //LocationPermission permission = await Geolocator.requestPermission();
     Location location = Location();
     await location.getCurrentLocation();
 
